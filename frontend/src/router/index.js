@@ -1,15 +1,22 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from "../views/Home.vue";
+import List from "../views/Home/List.vue";
+import Tweet from "../views/Tweet/Tweet.vue";
 
 Vue.use(VueRouter);
 
 const routes = [
   {
     path: "/",
-    name: "Home",
-    component: Home,
+    name: "list",
+    component: List,
   },
+  {
+    path: "/tweet/:id",
+    name: "tweet",
+    component: Tweet,
+    props: true
+  }
 ];
 
 const router = new VueRouter({

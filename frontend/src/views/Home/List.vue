@@ -1,17 +1,23 @@
 <template>
   <div class="container">
-    <h1>Twitter App</h1>
+    <div class="header">
+      <h3>Daily Notes</h3>
+    </div>
     <div v-for="post in posts" :key="post.pk" class="post">
-      <p>ユーザー: {{ post.creator }}</p>
-      <p>ツイート内容: {{ post.content }}</p>
+      <router-link
+        :to="{ name: 'tweet', params: { id: post.id } }"
+        class="tweet-link">
+        <p>ユーザー: {{ post.creator }}</p>
+        <p>ツイート内容: {{ post.content }}</p>
+      </router-link>
     </div>
   </div>
 </template>
 
 <script>
-import { apiService } from '../common/api.service.js'
+import { apiService } from '../../common/api.service.js'
 export default {
-  name: "Home",
+  name: "list",
   data(){
     return {
       posts: []
@@ -33,6 +39,11 @@ export default {
 </script>
 
 <style scoped>
+.header{
+  background-color:#0095d9;
+  color:white;
+  padding:1px 50px;
+}
 .post{
   border: 1px black solid;
 }
