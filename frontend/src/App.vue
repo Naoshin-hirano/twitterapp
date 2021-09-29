@@ -22,7 +22,9 @@
             </ul>
         </div>
     </div>
-    <router-view class="router"/>
+    <div class="container">
+      <router-view class="router"/>
+    </div>
   </div>
 </template>
 
@@ -36,10 +38,14 @@
 
 .menu{
     background-color:#1E90FF;
-    width:28%;
+    width:30%;
     float:left;
     height:900px;
     color:white;
+}
+.container{
+  float:right;
+  width:70%;
 }
 .user-info{
     text-align: center;

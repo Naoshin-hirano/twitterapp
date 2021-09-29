@@ -44,7 +44,7 @@ export default {
     margin-bottom:70px;
 }
 textarea{
-    width:70%;
+    width:100%;
     font-size:17px;
 }
 .postMessage{
