@@ -1,8 +1,5 @@
 <template>
   <div id="app">
-    <div class="header">
-        <h3>Daily Notes</h3>
-    </div>
     <div class="menu">
         <div class="user-info">
             <h4>Naoya Hirano</h4>
@@ -23,6 +20,9 @@
         </div>
     </div>
     <div class="container">
+      <div class="header">
+        <h3>Daily Notes</h3>
+      </div>
       <router-view class="router"/>
     </div>
   </div>
