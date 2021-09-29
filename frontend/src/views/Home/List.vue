@@ -1,6 +1,7 @@
 <template>
   <div>
     <div class="container">
+      <Post key=""/>
       <div v-for="post in posts" :key="post.pk" class="post">
         <router-link
           :to="{ name: 'tweet', params: { id: post.id } }"
@@ -10,13 +11,17 @@
         </router-link>
       </div>
     </div>
-</div>
+  </div>
 </template>
 
 <script>
 import { apiService } from '../../common/api.service.js'
+import Post from './Post.vue'
 export default {
   name: "list",
+  components: {
+    Post
+  },
   data(){
     return {
       posts: []
