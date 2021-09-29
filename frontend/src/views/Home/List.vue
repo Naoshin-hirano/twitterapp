@@ -1,12 +1,22 @@
 <template>
   <div>
+    <h2>ホーム</h2>
     <div class="container">
-      <Post key=""/>
+      <div class="textField">
+        <form @submit.prevent="onSubmit">
+            <textarea
+            v-model="content"
+            placeholder="いまどうしてる？">
+            </textarea>
+            <div class="postMessage">
+                <button type="onSubmit">投稿する</button>
+            </div>
+        </form>
+      </div>
       <div v-for="post in posts" :key="post.pk" class="post">
         <router-link
           :to="{ name: 'tweet', params: { id: post.id } }"
           class="tweet-link">
-          <p>ユーザー: {{ post.creator }}</p>
           <p>ツイート内容: {{ post.content }}</p>
         </router-link>
       </div>
@@ -16,15 +26,12 @@
 
 <script>
 import { apiService } from '../../common/api.service.js'
-import Post from './Post.vue'
 export default {
   name: "list",
-  components: {
-    Post
-  },
   data(){
     return {
-      posts: []
+      posts: [],
+      content: null
     }
   },
   methods: {
@@ -33,6 +40,13 @@ export default {
       apiService(endpoint).then(data => {
         this.posts.push(...data.results)
       })
+    },
+    onSubmit(){
+        let endpoint = `/api/tweets/`;
+        let method = "POST";
+        apiService(endpoint, method, {
+            content: this.content
+        })
     }
   },
   created(){
@@ -43,7 +57,31 @@ export default {
 </script>
 
 <style scoped>
+h2{
+  margin:5px;
+}
 .post{
   border: 1px black solid;
 }
+
+.textField{
+    margin-bottom:70px;
+}
+textarea{
+    width:70%;
+    font-size:17px;
+}
+.postMessage{
+    text-align: center;
+}
+.postMessage button{
+    background-color:#0095d9;
+    text-decoration: none;
+    color:white;
+    width:100px;
+    padding:10px 20px;
+    float:right;
+    border-radius:20px;
+}
+
 </style>

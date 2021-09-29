@@ -11,6 +11,9 @@ function handleResponse(response) {
 }
 
 function apiService(endpoint, method, data) {
+    console.log("endpoint: " + endpoint)
+    console.log("method: " + method)
+    console.log("data: " + data)
     const config = {
         method: method || "GET",
         body: data !== undefined ? JSON.stringify(data) : null,

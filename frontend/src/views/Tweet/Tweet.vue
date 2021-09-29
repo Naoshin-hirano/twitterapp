@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <p>{{ post.created_at }}</p>
+    <h2>ツイート</h2>
     <p>ツイート: {{ post.content }}</p>
   </div>
 </template>
