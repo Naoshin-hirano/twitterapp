@@ -46,12 +46,14 @@ export default {
         let method = "POST";
         apiService(endpoint, method, {
             content: this.content
+        }).then((data) => {
+          this.posts = this.posts.concat(data)
+          this.content = ''
         })
     }
   },
   created(){
     this.getPost()
-    console.log(this.posts)
   }
 };
 </script>
