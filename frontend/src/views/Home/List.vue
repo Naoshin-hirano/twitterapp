@@ -47,7 +47,7 @@ export default {
         apiService(endpoint, method, {
             content: this.content
         }).then((data) => {
-          this.posts = this.posts.concat(data)
+          this.posts.unshift(data)
           this.content = ''
         })
     }
