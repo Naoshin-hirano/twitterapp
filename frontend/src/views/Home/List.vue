@@ -14,11 +14,16 @@
         </form>
       </div>
       <div v-for="post in posts" :key="post.pk" class="post">
-        <router-link
+        <div class="down-icon">
+            <font-awesome-icon icon="angle-down" size="2x"/>
+        </div>
+        <div class="router-container">
+          <router-link
           :to="{ name: 'tweet', params: { id: post.id } }"
           class="tweet-link">
           <p>ツイート内容: {{ post.content }}</p>
-        </router-link>
+          </router-link>
+        </div>
       </div>
     </div>
   </div>
@@ -84,6 +89,11 @@ textarea{
     padding:10px 20px;
     float:right;
     border-radius:20px;
+}
+
+.down-icon{
+  float:right;
+  padding:5px 20px;
 }
 
 </style>
