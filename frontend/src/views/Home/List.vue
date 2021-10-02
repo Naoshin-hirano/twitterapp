@@ -1,7 +1,8 @@
 <template>
-  <div>
-    <h2>ホーム</h2>
-    <div class="container">
+    <div>
+      <div class="page-title">
+        <h2>ホーム</h2>
+      </div>
       <div class="textField">
         <form @submit.prevent="onSubmit">
             <textarea
@@ -14,7 +15,9 @@
         </form>
       </div>
       <div v-for="post in posts" :key="post.pk" class="post">
-        <div class="down-icon">
+        <div
+          class="down-icon"
+          @click="toggle">
             <font-awesome-icon icon="angle-down" size="2x"/>
         </div>
         <div class="router-container">
@@ -25,21 +28,44 @@
           </router-link>
         </div>
       </div>
+      <ListModal
+      v-click-outside="hide"
+      v-show="opened"
+      class="list-modal"/>
     </div>
-  </div>
 </template>
 
 <script>
 import { apiService } from '../../common/api.service.js'
+import ListModal from '../../components/ListModal.vue'
+import ClickOutside from 'vue-click-outside'
+
 export default {
   name: "list",
+  components: {
+    ListModal
+  },
+  directives: {
+      ClickOutside
+    },
+  mounted () {
+      // prevent click outside event with popupItem.
+      this.popupItem = this.$el
+    },
   data(){
     return {
       posts: [],
-      content: null
+      content: null,
+      opened: false
     }
   },
   methods: {
+    toggle(){
+        this.opened = true
+      },
+    hide() {
+        this.opened = false
+      },
     getPost(){
       let endpoint = `api/tweets/`
       apiService(endpoint).then(data => {
@@ -64,11 +90,22 @@ export default {
 </script>
 
 <style scoped>
+/* .container{
+  left: 0; 
+  top: 0;
+  width: 100%; 
+  height: 100%;
+  background: rgba(100, 100, 100, .8);
+} */
+.modal_opened {
+    display:block;
+}
 h2{
   margin:5px;
 }
 .post{
   border: 1px black solid;
+  height:150px;
 }
 
 .textField{
@@ -77,6 +114,7 @@ h2{
 textarea{
     width:70%;
     font-size:17px;
+    z-index: 1;
 }
 .postMessage{
     text-align: center;
@@ -94,6 +132,13 @@ textarea{
 .down-icon{
   float:right;
   padding:5px 20px;
+  border-radius: 50%;
+  background-color:white;
+  opacity:0.8;
+  color:#a9a9a9;
+}
+.down-icon:hover{
+  background-color:#e0ffff;
 }
 
 </style>
