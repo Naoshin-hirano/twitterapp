@@ -12,6 +12,22 @@
         </div>
     </div>
 </template>
+<script>
+export default {
+  // props: {
+  //   id: {
+  //     type: Number,
+  //     required: true,
+  //     default: 0
+  //   }
+  // },
+  data(){
+    return {
+
+    }
+  }
+}
+</script>
 
 <style scoped>
 .modal{

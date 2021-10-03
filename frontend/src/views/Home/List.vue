@@ -16,9 +16,9 @@
       </div>
       <div v-for="post in posts" :key="post.pk" class="post">
         <div
-          class="down-icon"
-          @click="toggle">
-            <font-awesome-icon icon="angle-down" size="2x"/>
+        class="down-icon"
+        @click="toggle">
+          <font-awesome-icon icon="angle-down" size="2x"/>
         </div>
         <div class="router-container">
           <router-link
@@ -29,29 +29,30 @@
         </div>
       </div>
       <ListModal
-      v-click-outside="hide"
-      v-show="opened"
+      v-if="opened"
+      @hide-modal="hide"
       class="list-modal"/>
     </div>
 </template>
 
 <script>
 import { apiService } from '../../common/api.service.js'
-import ListModal from '../../components/ListModal.vue'
-import ClickOutside from 'vue-click-outside'
+// import ListModal from '../../components/ListModal.vue'
+import ListModal from '../../components/ListModal2.vue'
+// import ClickOutside from 'vue-click-outside'
 
 export default {
   name: "list",
   components: {
     ListModal
   },
-  directives: {
-      ClickOutside
-    },
-  mounted () {
-      // prevent click outside event with popupItem.
-      this.popupItem = this.$el
-    },
+  // directives: {
+  //     ClickOutside
+  //   },
+  // mounted () {
+  //     // prevent click outside event with popupItem.
+  //     this.popupItem = this.$el
+  //   },
   data(){
     return {
       posts: [],
