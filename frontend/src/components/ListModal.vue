@@ -1,5 +1,6 @@
 <template>
-    <div class="modal">
+    <div 
+    class="modal">
         <div class="menu">
           <ul>
             <li class="delete">削除</li>
@@ -12,22 +13,6 @@
         </div>
     </div>
 </template>
-<script>
-export default {
-  // props: {
-  //   id: {
-  //     type: Number,
-  //     required: true,
-  //     default: 0
-  //   }
-  // },
-  data(){
-    return {
-
-    }
-  }
-}
-</script>
 
 <style scoped>
 .modal{
@@ -43,6 +28,9 @@ export default {
     margin: auto;
     background-color:white;
 }
+.xmark{
+    text-align: right;
+}
 .delete{
   color:red;
 }
@@ -52,21 +40,5 @@ ul{
 ul li{
   padding-top:20px;
 }
-/* .entry a{
-    width:200px;
-    background-color:#1E90FF;
-    color:white;
-    padding:20px 65px;
-    text-decoration: none;
-    border-radius: 5px;
-}
-.entry{
-    text-align:right;
-}
-.entry a:hover{
-    background-color:#4169E1;
-}
-label{
-    margin-left:20px;
-} */
+
 </style>

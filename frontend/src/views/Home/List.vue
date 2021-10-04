@@ -1,58 +1,51 @@
 <template>
     <div>
-      <div class="page-title">
-        <h2>ホーム</h2>
+      <div class="container">
+          <div class="overlay" v-show="opened" @click="toggle"></div>
+          <div class="contents">
+              <div class="page-title">
+                <h2>ホーム</h2>
+              </div>
+              <div class="textField">
+                <form @submit.prevent="onSubmit">
+                    <textarea
+                    v-model="content"
+                    placeholder="いまどうしてる？">
+                    </textarea>
+                    <div class="postMessage">
+                        <button type="onSubmit">投稿する</button>
+                    </div>
+                </form>
+              </div>
+              <div v-for="post in posts" :key="post.pk" class="post">
+                <div @click.prevent="toggle" class="down-icon">
+                  <font-awesome-icon icon="angle-down" size="2x"/>
+                </div>
+                <div class="router-container">
+                  <router-link
+                  :to="{ name: 'tweet', params: { id: post.id } }"
+                  class="tweet-link">
+                  <p>ツイート内容: {{ post.content }}</p>
+                  </router-link>
+                </div>
+              </div>
+              <ListModal
+              v-if="opened"
+              class="list-modal"/>
+          </div>
       </div>
-      <div class="textField">
-        <form @submit.prevent="onSubmit">
-            <textarea
-            v-model="content"
-            placeholder="いまどうしてる？">
-            </textarea>
-            <div class="postMessage">
-                <button type="onSubmit">投稿する</button>
-            </div>
-        </form>
-      </div>
-      <div v-for="post in posts" :key="post.pk" class="post">
-        <div
-        class="down-icon"
-        @click="toggle">
-          <font-awesome-icon icon="angle-down" size="2x"/>
-        </div>
-        <div class="router-container">
-          <router-link
-          :to="{ name: 'tweet', params: { id: post.id } }"
-          class="tweet-link">
-          <p>ツイート内容: {{ post.content }}</p>
-          </router-link>
-        </div>
-      </div>
-      <ListModal
-      v-if="opened"
-      @hide-modal="hide"
-      class="list-modal"/>
     </div>
 </template>
 
 <script>
 import { apiService } from '../../common/api.service.js'
-// import ListModal from '../../components/ListModal.vue'
-import ListModal from '../../components/ListModal2.vue'
-// import ClickOutside from 'vue-click-outside'
+import ListModal from '../../components/ListModal.vue'
 
 export default {
   name: "list",
   components: {
     ListModal
   },
-  // directives: {
-  //     ClickOutside
-  //   },
-  // mounted () {
-  //     // prevent click outside event with popupItem.
-  //     this.popupItem = this.$el
-  //   },
   data(){
     return {
       posts: [],
@@ -62,10 +55,7 @@ export default {
   },
   methods: {
     toggle(){
-        this.opened = true
-      },
-    hide() {
-        this.opened = false
+        this.opened =! this.opened
       },
     getPost(){
       let endpoint = `api/tweets/`
@@ -91,13 +81,6 @@ export default {
 </script>
 
 <style scoped>
-/* .container{
-  left: 0; 
-  top: 0;
-  width: 100%; 
-  height: 100%;
-  background: rgba(100, 100, 100, .8);
-} */
 .modal_opened {
     display:block;
 }
@@ -140,6 +123,17 @@ textarea{
 }
 .down-icon:hover{
   background-color:#e0ffff;
+}
+.list-modal{
+  z-index:5;
+}
+.overlay{
+  position: absolute;
+  left: 0; 
+  top: 0;
+  width: 100%; height: 100%;
+  background: rgba(100, 100, 100, .8);
+  z-index: 2;
 }
 
 </style>
