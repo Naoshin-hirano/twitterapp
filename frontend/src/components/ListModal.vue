@@ -3,7 +3,7 @@
     class="modal">
         <div class="menu">
           <ul>
-            <li class="delete">削除</li>
+            <li class="delete" @click.prevent="remove">削除</li>
             <li>プロフィールに固定する</li>
             <li>naoyaさんをリストに追加/削除</li>
             <li>返信できるユーザーを変更</li>
@@ -13,6 +13,23 @@
         </div>
     </div>
 </template>
+
+<script>
+export default {
+  props: {
+      id: {
+        type: Number,
+        required: true,
+        default: 0
+    }
+  },
+  methods: {
+    remove(){
+      this.$emit('click-delete', this.id)
+    }
+  }
+}
+</script>
 
 <style scoped>
 .modal{

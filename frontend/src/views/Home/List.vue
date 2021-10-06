@@ -18,7 +18,7 @@
                 </form>
               </div>
               <div v-for="post in posts" :key="post.pk" class="post">
-                <div @click.prevent="toggle" class="down-icon">
+                <div @click.prevent="toggle(post.id)" class="down-icon">
                   <font-awesome-icon icon="angle-down" size="2x"/>
                 </div>
                 <div class="router-container">
@@ -30,7 +30,9 @@
                 </div>
               </div>
               <ListModal
+              :id="id"
               v-if="opened"
+              @click-delete="deleteData"
               class="list-modal"/>
           </div>
       </div>
@@ -50,12 +52,15 @@ export default {
     return {
       posts: [],
       content: null,
-      opened: false
+      opened: false,
+      id:null
     }
   },
   methods: {
-    toggle(){
+    toggle(pk){
         this.opened =! this.opened
+        this.id = pk
+        console.log("id:" + this.id)
       },
     getPost(){
       let endpoint = `api/tweets/`
@@ -72,6 +77,19 @@ export default {
           this.posts.unshift(data)
           this.content = ''
         })
+    },
+    deleteData(id){
+      let endpoint = `/api/tweets/${id}/`;
+      apiService(endpoint, "DELETE")
+      .then(() => {
+        const post = this.posts.find(post => post.id === id)
+        const index = this.posts.indexOf(post)
+        this.posts.splice(index, 1)
+        console.log("削除されてるid:" + index)
+      })
+      .then(() =>{
+        this.opened = false
+      })
     }
   },
   created(){
@@ -81,17 +99,21 @@ export default {
 </script>
 
 <style scoped>
+.post{
+  position:relative;
+  border: 1px black solid;
+  height:150px;
+}
+.list-modal{
+  position: absolute;
+  z-index:5;
+}
 .modal_opened {
     display:block;
 }
 h2{
   margin:5px;
 }
-.post{
-  border: 1px black solid;
-  height:150px;
-}
-
 .textField{
     margin-bottom:70px;
 }
@@ -124,9 +146,7 @@ textarea{
 .down-icon:hover{
   background-color:#e0ffff;
 }
-.list-modal{
-  z-index:5;
-}
+
 .overlay{
   position: absolute;
   left: 0; 
