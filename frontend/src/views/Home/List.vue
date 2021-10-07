@@ -2,6 +2,7 @@
     <div>
       <div class="container">
           <div class="overlay" v-show="opened" @click="toggle"></div>
+          <div class="gray-overlay" v-show="editOpened" @click="editToggle"></div>
           <div class="contents">
               <div class="page-title">
                 <h2>ホーム</h2>
@@ -33,7 +34,12 @@
               :id="id"
               v-if="opened"
               @click-delete="deleteData"
+              @click-edit="editToggle"
               class="list-modal"/>
+              <EditModal
+              v-if="editOpened"
+              class="edit-modal"
+              />
           </div>
       </div>
     </div>
@@ -42,17 +48,19 @@
 <script>
 import { apiService } from '../../common/api.service.js'
 import ListModal from '../../components/ListModal.vue'
+import EditModal from '../../components/EditModal.vue'
 
 export default {
   name: "list",
   components: {
-    ListModal
+    ListModal, EditModal
   },
   data(){
     return {
       posts: [],
       content: null,
       opened: false,
+      editOpened: false,
       id:null
     }
   },
@@ -90,6 +98,9 @@ export default {
       .then(() =>{
         this.opened = false
       })
+    },
+    editToggle(){
+      this.editOpened =! this.editOpened
     }
   },
   created(){
@@ -107,6 +118,10 @@ export default {
 .list-modal{
   position: absolute;
   z-index:5;
+}
+.edit-modal{
+  position: absolute;
+  z-index:11;
 }
 .modal_opened {
     display:block;
@@ -152,8 +167,16 @@ textarea{
   left: 0; 
   top: 0;
   width: 100%; height: 100%;
-  background: rgba(100, 100, 100, .8);
+  background: rgba(0, 0, 255, 0);
   z-index: 2;
+}
+.gray-overlay{
+  position: absolute;
+  left: 0; 
+  top: 0;
+  width: 100%; height: 100%;
+  background: rgba(100, 100, 100, .8);
+  z-index: 10;
 }
 
 </style>

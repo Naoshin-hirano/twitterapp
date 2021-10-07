@@ -4,6 +4,7 @@
         <div class="menu">
           <ul>
             <li class="delete" @click.prevent="remove">削除</li>
+            <li @click.prevent="openEdit">編集</li>
             <li>プロフィールに固定する</li>
             <li>naoyaさんをリストに追加/削除</li>
             <li>返信できるユーザーを変更</li>
@@ -26,6 +27,9 @@ export default {
   methods: {
     remove(){
       this.$emit('click-delete', this.id)
+    },
+    openEdit(){
+      this.$emit('click-edit')
     }
   }
 }
@@ -38,12 +42,10 @@ export default {
     border:1px solid black;
     z-index:5;
     position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 600px;
-    margin: auto;
+    top: 40%;
+    left: 90%;
     background-color:white;
+    transform: translate(-80%, -20%);
 }
 .xmark{
     text-align: right;
