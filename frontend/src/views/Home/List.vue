@@ -3,6 +3,7 @@
       <div class="container">
           <div class="overlay" v-show="opened" @click="toggle"></div>
           <div class="gray-overlay" v-show="editOpened" @click="editToggle"></div>
+          <div class="gray-overlay" v-show="removeOpened" @click="removeToggle"></div>
           <div class="contents">
               <div class="page-title">
                 <h2>ホーム</h2>
@@ -33,15 +34,16 @@
               <ListModal
               :id="id"
               v-if="opened"
-              @click-delete="deleteData"
+              @click-delete="removeToggle"
               @click-edit="editToggle"
               class="list-modal"/>
               <EditModal
               :editContent="editContent"
               v-if="editOpened"
               @click-update="onUpdate"
-              class="edit-modal"
-              />
+              class="edit-modal"/>
+              <RemoveModal
+              v-if="removeOpened"/>
           </div>
       </div>
     </div>
@@ -51,11 +53,12 @@
 import { apiService } from '../../common/api.service.js'
 import ListModal from '../../components/ListModal.vue'
 import EditModal from '../../components/EditModal.vue'
+import RemoveModal from '../../components/RemoveModal.vue'
 
 export default {
   name: "list",
   components: {
-    ListModal, EditModal
+    ListModal, EditModal, RemoveModal
   },
   data(){
     return {
@@ -63,6 +66,7 @@ export default {
       content: null,
       opened: false,
       editOpened: false,
+      removeOpened: true,
       id:null,
       editContent: null
     }
@@ -118,7 +122,10 @@ export default {
     },
     editToggle(){
       this.editOpened =! this.editOpened
-    }
+    },
+    removeToggle(){
+      this.removeOpened =! this.removeOpened
+    },
   },
   created(){
     this.getPost()
@@ -193,7 +200,7 @@ textarea{
   top: 0;
   width: 100%; height: 100%;
   background: rgba(100, 100, 100, .8);
-  z-index: 10;
+  z-index: 4;
 }
 
 </style>

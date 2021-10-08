@@ -3,7 +3,7 @@
     class="modal">
         <div class="menu">
           <ul>
-            <li class="delete" @click.prevent="remove">削除</li>
+            <li class="delete" @click.prevent="openRemove">削除</li>
             <li @click.prevent="openEdit">編集</li>
             <li>プロフィールに固定する</li>
             <li>naoyaさんをリストに追加/削除</li>
@@ -25,8 +25,8 @@ export default {
     }
   },
   methods: {
-    remove(){
-      this.$emit('click-delete', this.id)
+    openRemove(){
+      this.$emit('click-delete')
     },
     openEdit(){
       this.$emit('click-edit')
