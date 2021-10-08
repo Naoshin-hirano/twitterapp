@@ -8,7 +8,7 @@
                 </p>
             </div>
             <div class="btn-wrapper">
-                <div class="btn remove">
+                <div @click="remove(id)" class="btn remove">
                     削除
                 </div>
                 <div class="btn cancel">
@@ -18,6 +18,23 @@
         </div>
     </div>
 </template>
+
+<script>
+export default {
+    props: {
+        id: {
+            type:Number,
+            required:true,
+            default: 0
+        }
+    },
+    methods: {
+        remove(value){
+            this.$emit('remove-btn', value)
+        }
+    }
+}
+</script>
 
 <style scoped>
 h3{
@@ -31,7 +48,7 @@ h3{
     width:320px;
     height: 320px;
     border:1px solid black;
-    z-index:5;
+    z-index:11;
     position: absolute;
     left: 50%;
     top:50%;

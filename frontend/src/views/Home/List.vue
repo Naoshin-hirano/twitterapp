@@ -43,7 +43,9 @@
               @click-update="onUpdate"
               class="edit-modal"/>
               <RemoveModal
-              v-if="removeOpened"/>
+              :id="id"
+              v-if="removeOpened"
+              @remove-btn="onRemove"/>
           </div>
       </div>
     </div>
@@ -66,7 +68,7 @@ export default {
       content: null,
       opened: false,
       editOpened: false,
-      removeOpened: true,
+      removeOpened: false,
       id:null,
       editContent: null
     }
@@ -104,20 +106,22 @@ export default {
         const post = this.posts.find(post => post.id === data.id)
         post.content = data.content
         this.editOpened = false
+        this.opened = false
         console.log("更新できました")
       })
     },
-    deleteData(id){
+    onRemove(id){
       let endpoint = `/api/tweets/${id}/`;
       apiService(endpoint, "DELETE")
       .then(() => {
         const post = this.posts.find(post => post.id === id)
         const index = this.posts.indexOf(post)
         this.posts.splice(index, 1)
-        console.log("削除できました")
       })
       .then(() =>{
+        this.removeOpened = false
         this.opened = false
+        console.log("削除できました")
       })
     },
     editToggle(){
@@ -200,7 +204,7 @@ textarea{
   top: 0;
   width: 100%; height: 100%;
   background: rgba(100, 100, 100, .8);
-  z-index: 4;
+  z-index: 6;
 }
 
 </style>
