@@ -6,18 +6,35 @@
             <h2>Daily Noteの編集</h2>
         </div>
         <div class="textField">
-            <form>
+            <form @submit.prevent="onUpdate(content)">
                 <textarea
+                v-model="content"
                 placeholder="いまどうしてる？">
                 </textarea>
                 <div class="postMessage">
-                    <button type="onSubmit">更新する</button>
+                    <button type="onUpdate">更新する</button>
                 </div>
             </form>
         </div>
       </div>
     </div>
 </template>
+
+<script>
+export default {
+    props: ["editContent"],
+    data(){
+        return{
+            content: this.editContent    
+        }
+    },
+    methods: {
+        onUpdate(content){
+            this.$emit('click-update', content)
+        }
+    }
+}
+</script>
 
 <style scoped>
 .container{

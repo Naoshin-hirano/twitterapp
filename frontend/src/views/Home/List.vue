@@ -19,7 +19,7 @@
                 </form>
               </div>
               <div v-for="post in posts" :key="post.pk" class="post">
-                <div @click.prevent="toggle(post.id)" class="down-icon">
+                <div @click.prevent="toggle(post.id, post.content)" class="down-icon">
                   <font-awesome-icon icon="angle-down" size="2x"/>
                 </div>
                 <div class="router-container">
@@ -37,7 +37,9 @@
               @click-edit="editToggle"
               class="list-modal"/>
               <EditModal
+              :editContent="editContent"
               v-if="editOpened"
+              @click-update="onUpdate"
               class="edit-modal"
               />
           </div>
@@ -61,14 +63,15 @@ export default {
       content: null,
       opened: false,
       editOpened: false,
-      id:null
+      id:null,
+      editContent: null
     }
   },
   methods: {
-    toggle(pk){
+    toggle(pk, editContent){
         this.opened =! this.opened
         this.id = pk
-        console.log("id:" + this.id)
+        this.editContent = editContent
       },
     getPost(){
       let endpoint = `api/tweets/`
@@ -84,7 +87,21 @@ export default {
         }).then((data) => {
           this.posts.unshift(data)
           this.content = ''
+          console.log("投稿できました")
         })
+    },
+    onUpdate(updatedContent){
+      let endpoint = `/api/tweets/${this.id}/`;
+      let method = "PUT";
+      this.content = updatedContent
+      apiService(endpoint, method, {
+        content: this.content
+      }).then(data => {
+        const post = this.posts.find(post => post.id === data.id)
+        post.content = data.content
+        this.editOpened = false
+        console.log("更新できました")
+      })
     },
     deleteData(id){
       let endpoint = `/api/tweets/${id}/`;
@@ -93,7 +110,7 @@ export default {
         const post = this.posts.find(post => post.id === id)
         const index = this.posts.indexOf(post)
         this.posts.splice(index, 1)
-        console.log("削除されてるid:" + index)
+        console.log("削除できました")
       })
       .then(() =>{
         this.opened = false
