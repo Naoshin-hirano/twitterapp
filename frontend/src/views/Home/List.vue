@@ -1,6 +1,6 @@
 <template>
     <div>
-      <div class="container">
+      <div class="container" >
           <div class="overlay" v-show="opened" @click="toggle"></div>
           <div class="gray-overlay" v-show="editOpened" @click="editToggle"></div>
           <div class="gray-overlay" v-show="removeOpened" @click="removeToggle"></div>
@@ -9,17 +9,18 @@
                 <h2>ホーム</h2>
               </div>
               <div class="textField">
-                <form @submit.prevent="onSubmit">
+                <form @submit.prevent="onSubmit" data-test="form">
                     <textarea
                     v-model="content"
-                    placeholder="いまどうしてる？">
+                    placeholder="いまどうしてる？"
+                    data-test="content">
                     </textarea>
                     <div class="postMessage">
-                        <button type="onSubmit">投稿する</button>
+                        <button type="submit">投稿する</button>
                     </div>
                 </form>
               </div>
-              <div v-for="post in posts" :key="post.pk" class="post">
+              <div v-for="post in posts" :key="post.pk" class="post" data-test="list">
                 <div @click.prevent="toggle(post.id, post.content)" class="down-icon">
                   <font-awesome-icon icon="angle-down" size="2x"/>
                 </div>
@@ -64,7 +65,11 @@ export default {
   },
   data(){
     return {
-      posts: [],
+      posts: [{
+        id: 1,
+        text: "テスト",
+        completed: false
+      }],
       content: null,
       opened: false,
       editOpened: false,
@@ -86,15 +91,19 @@ export default {
       })
     },
     onSubmit(){
-        let endpoint = `/api/tweets/`;
-        let method = "POST";
-        apiService(endpoint, method, {
-            content: this.content
-        }).then((data) => {
-          this.posts.unshift(data)
-          this.content = ''
-          console.log("投稿できました")
-        })
+        // let endpoint = `/api/tweets/`;
+        // let method = "POST";
+        // apiService(endpoint, method, {
+        //     content: this.content
+        // }).then((data) => {
+          this.posts.unshift({
+            id:2,
+            text: this.content,
+            completed: false
+          })
+        //   this.content = ''
+        //   console.log("投稿できました")
+        // })
     },
     onUpdate(updatedContent){
       let endpoint = `/api/tweets/${this.id}/`;
