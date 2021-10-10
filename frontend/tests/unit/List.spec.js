@@ -4,13 +4,19 @@ import List from "@/views/Home/List.vue";
 import "isomorphic-fetch"
 
 describe("List.vue", () => {
+    let wrapper;
+    
+    beforeEach(() => {
+        wrapper = mount(List); 
+    });
+
   it("renders props.msg when passed", () => {
-    const wrapper = shallowMount(List);
+    wrapper = shallowMount(List);
     expect(wrapper.text()).toContain("ホーム");
   });
 
   it("should add new list", async () => {
-      const wrapper = mount(List);
+      wrapper = mount(List);
       
       expect(wrapper.findAll('[data-test="list"]')).toHaveLength(1);
 
